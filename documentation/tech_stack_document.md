@@ -1,90 +1,107 @@
 # Tech Stack Document
 
-This document explains the key technologies chosen for the **codeguide-starter** project. It’s written in everyday language so anyone—technical or not—can understand why each tool was picked and how it supports the application.
+This document explains the technologies chosen for your SA:MP Roleplay Forum project in simple, everyday language. It covers how each piece fits together, why it was chosen, and what benefits it brings.
 
-## 1. Frontend Technologies
-The frontend is everything the user sees and interacts with. For this project, we’ve used:
+## Frontend Technologies
 
 - **Next.js (App Router)**
-  - A React framework that makes page routing, server-side rendering, and API routes very simple.
-  - Enhances user experience by pre-rendering pages on the server or at build time, leading to faster initial load.
-- **React 18**
-  - The underlying library for building user interfaces with reusable components.
-  - Provides a smooth, interactive experience thanks to its virtual DOM and modern hooks.
-- **TypeScript**
-  - A superset of JavaScript that adds types (labels for data).
-  - Helps catch errors early during development and makes the code easier to maintain.
-- **CSS (globals.css & theme.css)**
-  - **globals.css** applies base styles (fonts, colors, resets) across the entire app.
-  - **dashboard/theme.css** defines the look and feel specific to the dashboard area.
-  - This separation keeps styles organized and avoids accidental style conflicts.
+  - Built on React, it handles both page routing and server-side rendering for fast, SEO-friendly pages.
+  - File-based routes (e.g., `app/forum/[categoryId]`) make it easy to see which files map to which URLs.
+- **React & TypeScript**
+  - React provides the building blocks for interactive interfaces.
+  - TypeScript adds type safety, catching errors early and making large codebases easier to maintain.
+- **shadcn/ui & Radix UI primitives**
+  - Prebuilt, customizable components (cards, tables, buttons) speed up UI development.
+  - They give a modern look while letting you recreate the classic forum feel.
+- **Tailwind CSS**
+  - A utility-first styling framework that lets you design directly in your markup.
+  - Speeds up CSS by avoiding long style sheets and ensuring consistent spacing and colors.
+- **next-themes**
+  - Handles dark/light mode toggling out of the box using CSS variables.
+  - Gives users control over their viewing preference with minimal setup.
+- **react-markdown**
+  - Renders Markdown content (posts, comments) as HTML.
+  - Lets users write posts in Markdown and see formatted text instantly.
 
-By combining these tools, we have a clear structure (Next.js folders for pages and layouts), safer code (TypeScript), and flexible styling with vanilla CSS.
+These choices work together to deliver a fast, responsive, and visually appealing forum interface that’s easy to build on and maintain.
 
-## 2. Backend Technologies
-The backend handles data, user accounts, and the logic behind the scenes. Our choices here are:
+## Backend Technologies
 
 - **Next.js API Routes**
-  - Allows us to write server-side code (`route.ts` files) alongside our frontend in the same project.
-  - Runs on Node.js, so we can handle requests like sign-up, sign-in, and data fetching in one place.
-- **Node.js Runtime**
-  - The JavaScript environment on the server that executes our API routes.
-- **bcrypt** (npm package)
-  - A library for hashing passwords securely before storing them.
-  - Ensures that even if someone got access to our data, raw passwords aren’t visible.
-- **(Optional) NextAuth.js or JWT**
-  - While this starter kit shows a custom authentication flow, it can easily integrate services like NextAuth.js for email-based login or JWT (JSON Web Tokens) for stateless sessions.
+  - Lets you write server-side code alongside your frontend in the same codebase.
+  - You can create endpoints like `/api/auth` or `/api/samp/players` without spinning up a separate server.
+- **better-auth (cookie-based sessions)**
+  - Provides secure sign-up, sign-in, and session handling using HTTP-only cookies.
+  - Can be extended later for roles (User, Moderator, Admin), bans, and suspensions.
+- **PostgreSQL**
+  - A reliable, open-source relational database for storing users, categories, threads, posts, roles, and more.
+- **Drizzle ORM**
+  - A type-safe query builder that integrates seamlessly with TypeScript.
+  - Catches mistakes at compile time, making data management less error-prone.
+- **Socket.IO**
+  - Adds real-time capabilities (e.g., notifications, live chat) via WebSockets.
+  - Keeps users engaged by delivering updates instantly.
+- **next-swagger-doc** (optional)
+  - Automatically generates OpenAPI (Swagger) documentation for your API routes.
+  - Makes it easier for developers to understand and test your endpoints.
 
-These components work together to receive user credentials, verify or store them securely, manage sessions or tokens, and deliver protected data back to the frontend.
+Together, these technologies handle user data, authentication, and real-time features in a secure, organized way.
 
-## 3. Infrastructure and Deployment
-Infrastructure covers where and how we host the app, as well as how changes get delivered:
+## Infrastructure and Deployment
 
-- **Git & GitHub**
-  - Version control system (Git) and remote hosting (GitHub) keep track of all code changes and allow team collaboration.
-- **Vercel (or Netlify)**
-  - A popular hosting service optimized for Next.js, with one-click deployments and global content delivery.
-  - Automatically rebuilds and deploys the site whenever code is pushed to the main branch.
-- **GitHub Actions (CI/CD)**
-  - Automates tasks like linting (ESLint), formatting (Prettier), and running any tests you add.
-  - Ensures that only clean, tested code goes live.
+- **Docker**
+  - Containers ensure your development environment matches production exactly.
+  - Simplifies onboarding: just `docker-compose up` to get everything running.
+- **Version Control: Git & GitHub**
+  - Tracks changes, enables collaboration, and stores your code safely in repositories.
+- **CI/CD with GitHub Actions**
+  - Automatically runs linting (ESLint) and tests on every push or pull request.
+  - Deploys to your hosting platform when checks pass, reducing manual steps.
+- **Hosting Platforms: Vercel or Render**
+  - Offer seamless integration with Next.js for zero-configuration deployments.
+  - Provide global CDN, HTTPS, and automatic scaling.
 
-Together, these tools provide a reliable, scalable setup where every code change is tested and deployed quickly, with minimal manual work.
+These choices make your app reliable, easy to update, and ready to scale as your community grows.
 
-## 4. Third-Party Integrations
-While this starter kit is minimal by design, it already includes or can easily add:
+## Third-Party Integrations
 
-- **bcrypt**
-  - For secure password hashing (included as an npm dependency).
-- **NextAuth.js** (optional)
-  - A full-featured authentication library supporting email/password, OAuth, and more.
-- **Sentry or LogRocket** (optional)
-  - For real-time error tracking and performance monitoring in production.
+- **Cloudinary or Supabase Storage**
+  - Handles image and avatar uploads via simple API calls.
+  - Offloads media storage and optimization so your server stays lean.
+- **Socket.IO**
+  - Provides live features, such as real-time notifications for mentions and new replies.
+- **SA:MP Game Server API**
+  - Custom Next.js API routes can fetch live player counts, leaderboards, and faction lists.
+  - Keeps your forum in sync with in-game events.
+- **next-swagger-doc**
+  - Adds self-documenting API pages under `/api/docs`, improving transparency for future developers.
 
-These integrations help extend the app’s capabilities without building every feature from scratch.
+These services enhance your forum’s functionality by adding media handling, live updates, and clear API documentation.
 
-## 5. Security and Performance Considerations
-We’ve baked in several measures to keep users safe and the app running smoothly:
+## Security and Performance Considerations
 
-Security:
-- Passwords are never stored in plain text—bcrypt hashes them with a random salt.
-- API routes can implement CSRF protection and input validation to block malicious requests.
-- Session tokens or cookies are marked secure and HttpOnly to prevent theft via JavaScript.
+Security Measures:
+- HTTP-only, secure cookies prevent JavaScript access and cross-site scripting attacks.
+- Role-based access control (RBAC) with user, moderator, and admin levels ensures only authorized actions.
+- Type-safe queries (Drizzle ORM) reduce the risk of SQL injection.
+- HTTPS enforced by hosting platforms protects data in transit.
 
-Performance:
-- Server-side rendering (SSR) and static site generation (SSG) in Next.js deliver pages faster.
-- Code splitting and lazy-loaded components ensure users only download what they need.
-- Global CSS and theme files are small and cached by the browser for quick repeat visits.
+Performance Optimizations:
+- Server-side rendering (SSR) and static generation (SSG) in Next.js deliver fast page loads.
+- Code splitting and lazy loading keep bundle sizes small.
+- Database indexing and query optimization in PostgreSQL minimize response times.
+- Docker production builds strip out dev dependencies for a lean runtime.
 
-These strategies work together to give users a fast, secure experience every time.
+These practices keep your forum both secure and snappy for end users.
 
-## 6. Conclusion and Overall Tech Stack Summary
-In building **codeguide-starter**, we chose technologies that:
+## Conclusion and Overall Tech Stack Summary
 
-- Align with modern web standards (Next.js, React, TypeScript).
-- Provide a clear, file-based project structure for rapid onboarding.
-- Offer built-in support for server-side rendering, API routes, and static assets.
-- Emphasize security through password hashing, session management, and safe defaults.
-- Enable easy scaling and future enhancements via modular code and optional integrations.
+We’ve chosen a modern, well-integrated stack that aligns with your goals of building a classic-feeling yet modern SA:MP Roleplay Forum. Key highlights:
 
-This stack strikes a balance between simplicity for newcomers and flexibility for experienced teams. It accelerates development of a secure authentication flow and a polished dashboard, while leaving room to plug in databases, test suites, and advanced features as the project grows.
+- **Next.js + React + TypeScript:** A unified codebase for frontend and backend with strong type safety.
+- **shadcn/ui + Tailwind + next-themes:** Rapid, consistent styling and theming for a polished user interface.
+- **PostgreSQL + Drizzle ORM:** A reliable, type-safe data layer ready to handle complex forum relationships.
+- **Docker + GitHub Actions + Vercel/Render:** A rock-solid pipeline from code to deployment, ensuring reliability and scalability.
+- **Socket.IO + Cloudinary/Supabase:** Real-time features and media handling that enhance user engagement.
+
+This combination gives you everything you need to focus on building the unique community and game integration features that will set your forum apart. Feel confident that each technology was chosen to support stability, security, and a smooth user experience.

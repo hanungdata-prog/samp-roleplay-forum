@@ -1,14 +1,16 @@
 flowchart TD
-  Start[Landing Page]
-  SignUpPage[Sign Up Page]
-  SignInPage[Sign In Page]
-  AuthAPI[Authentication API Endpoint]
-  DashboardPage[Dashboard Page]
-  Start -->|Select Sign Up| SignUpPage
-  Start -->|Select Sign In| SignInPage
-  SignUpPage -->|Submit Credentials| AuthAPI
-  SignInPage -->|Submit Credentials| AuthAPI
-  AuthAPI -->|Success| DashboardPage
-  AuthAPI -->|Error| SignUpPage
-  AuthAPI -->|Error| SignInPage
-  DashboardPage -->|Click Logout| Start
+  Start[Start] --> Landing[Landing Page]
+  Landing --> SignIn[Sign In]
+  Landing --> SignUp[Sign Up]
+  SignIn --> AuthCheck{Authenticated?}
+  SignUp --> AuthCheck{Authenticated?}
+  AuthCheck -->|Yes| Dashboard[Dashboard]
+  AuthCheck -->|No| Landing[Landing Page]
+  Dashboard --> ForumHome[Forum Home]
+  ForumHome --> CategoryView[Category View]
+  CategoryView --> ThreadView[Thread View]
+  ThreadView --> Reply[Post Reply]
+  Dashboard --> Profile[User Profile]
+  Dashboard --> AdminPanel[Admin Panel]
+  AdminPanel --> ManageUsers[Manage Users]
+  AdminPanel --> ManagePosts[Manage Posts]
